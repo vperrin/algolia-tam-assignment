@@ -29,6 +29,10 @@ search.addWidgets([
   }),
   hits({
     container: '#results',
+      templates: {
+      item:
+        autocompleteProductTemplate,
+    },
   }),
   
 ])
