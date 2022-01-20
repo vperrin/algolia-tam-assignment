@@ -118,7 +118,7 @@
 }
 
 .results__container {
-  display: flex;
+  display: grid;
   width: 100%;
   justify-content: space-between;
 }

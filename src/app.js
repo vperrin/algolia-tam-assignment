@@ -8,6 +8,8 @@ import {
   pagination,
 } from 'instantsearch.js/es/widgets'
 
+import autocompleteProductTemplate from './templates/autocomplete-product';
+
 import '@algolia/autocomplete-theme-classic'
 
 const searchClient = algoliasearch(
@@ -26,6 +28,10 @@ search.addWidgets([
   searchBox({
     container: '#searchbox',
     placeholder: 'Search',
+  }),
+  hierarchicalMenu({
+    container: '#categories',
+    attributes: ['hierarchicalCategories.lvl0', 'hierarchicalCategories.lvl1'],
   }),
   hits({
     container: '#results',
