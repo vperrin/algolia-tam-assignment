@@ -7,7 +7,7 @@ const autocompleteProduct = hit => `<div class="autocomplete-product">
       hit._highlightResult.name.value
     }</h3>
     <p class="autocomplete-product__brand">${hit.brand}</p>
-    <p class="autocomplete-product__price">$${hit.price}</p>
+    <p class="autocomplete-product__price">£${hit.price}</p>
   </div>
 </div>`;
 

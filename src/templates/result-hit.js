@@ -4,7 +4,8 @@ const resultHit = hit => `<div class="result-hit">
   </div>
   <div class="result-hit__details">
     <h3 class="result-hit__name">${hit._highlightResult.name.value}</h3>
-    <p class="result-hit__price">$${hit.price}</p>
+    <p class="result-hit__brand">${hit.brand}</p>
+    <p class="result-hit__price">£${hit.price}</p>
   </div>
 </div>`;
 
