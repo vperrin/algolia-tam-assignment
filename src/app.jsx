@@ -146,7 +146,7 @@ autocomplete({
                 query,
                 params: {
                   hitsPerPage: 5,
-                  attributesToSnippet: ['name:10', 'description:35'],
+                  attributesToSnippet: ['name:20'],
                   snippetEllipsisText: '…',
                 },
               },
