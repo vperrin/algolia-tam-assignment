@@ -6,6 +6,7 @@ import { connectSearchBox } from 'instantsearch.js/es/connectors'
 import { hierarchicalMenu, hits, pagination } from 'instantsearch.js/es/widgets'
 import autocompleteProductTemplate from './templates/autocomplete-product';
 import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
+import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
 
 import '@algolia/autocomplete-theme-classic'
 
@@ -23,12 +24,17 @@ const search = instantsearch({
   routing: instantSearchRouter,
 })
 
-const querySuggestionsPlugin = createQuerySuggestionsPlugin({
+const querySuggestionsPluginKeywords = createQuerySuggestionsPlugin({
   searchClient,
   indexName: 'keywords_query_suggestions',
   getSearchParams({ state }) {
-    return { hitsPerPage: state.query ? 5 : 10 };
+    return { hitsPerPage: 5 };
   },
+});
+
+const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
+  key: 'RECENT_SEARCH',
+  limit: 5,
 });
 
 
@@ -78,7 +84,7 @@ const searchPageState = getInstantSearchUiState()
 
 autocomplete({
   container: '#autocomplete',
-   plugins: [querySuggestionsPlugin],
+   plugins: [recentSearchesPlugin, querySuggestionsPluginKeywords],
   openOnFocus: true,
   placeholder: 'Search',
   detachedMediaQuery: 'none',
