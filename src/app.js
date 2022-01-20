@@ -29,10 +29,10 @@ search.addWidgets([
     container: '#searchbox',
     placeholder: 'Search',
   }),
-  hierarchicalMenu({
-    container: '#categories',
-    attributes: ['hierarchicalCategories.lvl0', 'hierarchicalCategories.lvl1'],
-  }),
+  // hierarchicalMenu({
+  //   container: '#categories',
+  //   attributes: ['hierarchicalCategories.lvl0', 'hierarchicalCategories.lvl1'],
+  // }),
   hits({
     container: '#results',
       templates: {
