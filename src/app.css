@@ -112,7 +112,7 @@
 
 /*Results*/
 .results {
-  max-width: 1200px;
+  max-width: 1600px;
   margin: 0 auto;
   padding: 120px 1rem 0;
   display: flex;
@@ -132,8 +132,6 @@
 /* Hits */
 .search-panel {
   flex: 3;
-  flex-grow: 4; /* default 0 */
-
   display: flex;
   flex-wrap: wrap;
 }

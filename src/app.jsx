@@ -7,6 +7,9 @@ import {
   hierarchicalMenu,
   hits,
   pagination,
+  refinementList,
+  currentRefinements,
+  rangeSlider
 } from 'instantsearch.js/es/widgets';
 import autocompleteProductTemplate from './templates/autocomplete-product';
 import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
@@ -61,6 +64,21 @@ search.addWidgets([
   pagination({
     container: '#pagination',
   }),
+  refinementList({
+  container: '#brand',
+  attribute: 'brand',
+  }),
+  refinementList({
+  container: '#type',
+  attribute: 'type',
+  }),
+  currentRefinements({
+  container: '#current-refinements',
+  }),
+  rangeSlider({
+  container: '#range-slider',
+  attribute: 'price',
+})
 ]);
 
 search.start();
