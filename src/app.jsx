@@ -11,27 +11,53 @@ import {
   currentRefinements,
   rangeSlider
 } from 'instantsearch.js/es/widgets';
-import autocompleteProductTemplate from './templates/autocomplete-product';
-import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
-import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
 import { h, Fragment } from 'preact';
+
+// Template for products on IS page
+import instantSearchProductTemplate from './templates/instantsearch-product';
+
+//Plugin for keyword suggestions
+import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
+
+//Plugin for previous searches made by the user
+import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
+
+//Plugins for tracking
+import { createAlgoliaInsightsPlugin } from '@algolia/autocomplete-plugin-algolia-insights';
+import insightsClient from 'search-insights';
 
 import '@algolia/autocomplete-theme-classic';
 
+//Algolia credentials
+let appId=  process.env.APPLICATION_ID
+let apiKey=  process.env.SEARCH_KEY
+
+//Creating the search client
 const searchClient = algoliasearch(
-  process.env.APPLICATION_ID,
-  process.env.SEARCH_KEY
+  appId,
+  apiKey
 );
 
+// Initiating the insights client
+insightsClient('init', { appId, apiKey });
+
+//Instantiating the insights plugin
+const algoliaInsightsPlugin = createAlgoliaInsightsPlugin({ insightsClient });
+
+// Name of the product index
 const INSTANT_SEARCH_INDEX_NAME = 'products';
+
+// Router needed to update url
 const instantSearchRouter = historyRouter();
 
+// Connect to the index through search client
 const search = instantsearch({
   searchClient,
   indexName: INSTANT_SEARCH_INDEX_NAME,
   routing: instantSearchRouter,
 });
 
+// Instantiate the keyword suggestions plugin, based on the index keywords_query_suggestions. This index is based on the brand, categories and type facet
 const querySuggestionsPluginKeywords = createQuerySuggestionsPlugin({
   searchClient,
   indexName: 'keywords_query_suggestions',
@@ -40,6 +66,7 @@ const querySuggestionsPluginKeywords = createQuerySuggestionsPlugin({
   },
 });
 
+// Instantiate the recent search plugin
 const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
   key: 'RECENT_SEARCH',
   limit: 5,
@@ -49,12 +76,13 @@ const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
 // state parameter.
 const virtualSearchBox = connectSearchBox(() => {});
 
+// Add all widgets to the search client
 search.addWidgets([
   virtualSearchBox({}),
   hits({
     container: '#results',
     templates: {
-      item: autocompleteProductTemplate,
+      item: instantSearchProductTemplate,
     },
   }),
   pagination({
@@ -65,7 +93,7 @@ search.addWidgets([
   attributes: [
     'hierarchicalCategories.lvl0',
     'hierarchicalCategories.lvl1',
-        'hierarchicalCategories.lvl2',
+    'hierarchicalCategories.lvl2',
     'hierarchicalCategories.lvl3',
   ],
 }),
@@ -86,6 +114,7 @@ search.addWidgets([
 })
 ]);
 
+// Start the widget
 search.start();
 
 // Set the InstantSearch index UI state from external events.
@@ -110,6 +139,7 @@ function getInstantSearchUiState() {
 
 const searchPageState = getInstantSearchUiState();
 
+// TODO move to seperate file
 function ProductItem({ hit, components }) {
   return (
     <div className="aa-ItemWrapper">
@@ -147,9 +177,10 @@ function ProductItem({ hit, components }) {
   );
 }
 
+// Define the autocomplete UI
 autocomplete({
   container: '#autocomplete',
-  plugins: [recentSearchesPlugin, querySuggestionsPluginKeywords],
+  plugins: [recentSearchesPlugin, querySuggestionsPluginKeywords, algoliaInsightsPlugin],
   openOnFocus: true,
   placeholder: 'Search',
   detachedMediaQuery: 'none',
@@ -184,12 +215,14 @@ autocomplete({
       },
     ];
   },
+  //Make sure that a search is performed on enter
   onSubmit({ state }) {
     setInstantSearchUiState({ query: state.query });
   },
   onReset() {
     setInstantSearchUiState({ query: '' });
   },
+    //Update the instantsearch widget on every keystroke
   onStateChange({ prevState, state }) {
     if (prevState.query !== state.query) {
       setInstantSearchUiState({ query: state.query });

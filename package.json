@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@algolia/autocomplete-js": "^1.5.1",
+    "@algolia/autocomplete-plugin-algolia-insights": "^1.5.1",
     "@algolia/autocomplete-plugin-query-suggestions": "^1.5.1",
     "@algolia/autocomplete-plugin-recent-searches": "^1.5.1",
     "@algolia/autocomplete-theme-classic": "^1.5.1",
