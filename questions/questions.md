@@ -14,10 +14,12 @@ Answer:
 
 Hi Marissa,
 
-Thanks for reaching out to me. We actually value all the feedback coming from out customers. Honest feedback allows us to continuously improve our solution and make it easier to use for our customers. 
-I'll follow up internally with our product team to convey the message. Out of curiosity, for what reason are you deleting and clearing indexes that often? If I better understand the problem you are trying to solve, I may be able to help you find a more efficient way of working.
+Thanks for reaching out to me. We actually value all the feedback coming from our customers. Honest feedback allows us to continually improve our solution and make it easier to use for our customers. 
+I'll follow up internally with our product team to convey the message. 
+Out of curiosity, for what reason are you deleting and clearing indexes that often? If I better understand the problem you are trying to solve, I may be able to help you find a more efficient way of working.
 
-Best, Vincent
+Best, 
+Vincent
 
 --
 
