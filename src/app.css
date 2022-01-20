@@ -131,7 +131,7 @@
 
 /* Hits */
 .search-panel {
-  flex: 3;
+  flex: 6;
   display: flex;
   flex-wrap: wrap;
 }
