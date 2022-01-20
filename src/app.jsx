@@ -51,10 +51,6 @@ const virtualSearchBox = connectSearchBox(() => {});
 
 search.addWidgets([
   virtualSearchBox({}),
-  hierarchicalMenu({
-    container: '#categories',
-    attributes: ['hierarchicalCategories.lvl0', 'hierarchicalCategories.lvl1'],
-  }),
   hits({
     container: '#results',
     templates: {
@@ -64,6 +60,15 @@ search.addWidgets([
   pagination({
     container: '#pagination',
   }),
+  hierarchicalMenu({
+  container: '#hierarchical-menu',
+  attributes: [
+    'hierarchicalCategories.lvl0',
+    'hierarchicalCategories.lvl1',
+        'hierarchicalCategories.lvl2',
+    'hierarchicalCategories.lvl3',
+  ],
+}),
   refinementList({
   container: '#brand',
   attribute: 'brand',
