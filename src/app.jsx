@@ -5,6 +5,7 @@ import historyRouter from 'instantsearch.js/es/lib/routers/history'
 import { connectSearchBox } from 'instantsearch.js/es/connectors'
 import { hierarchicalMenu, hits, pagination } from 'instantsearch.js/es/widgets'
 import autocompleteProductTemplate from './templates/autocomplete-product';
+import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
 
 import '@algolia/autocomplete-theme-classic'
 
@@ -21,6 +22,15 @@ const search = instantsearch({
   indexName: INSTANT_SEARCH_INDEX_NAME,
   routing: instantSearchRouter,
 })
+
+const querySuggestionsPlugin = createQuerySuggestionsPlugin({
+  searchClient,
+  indexName: 'keywords_query_suggestions',
+  getSearchParams({ state }) {
+    return { hitsPerPage: state.query ? 5 : 10 };
+  },
+});
+
 
 // Mount a virtual search box to manipulate InstantSearch's `query` UI
 // state parameter.
@@ -68,6 +78,8 @@ const searchPageState = getInstantSearchUiState()
 
 autocomplete({
   container: '#autocomplete',
+   plugins: [querySuggestionsPlugin],
+  openOnFocus: true,
   placeholder: 'Search',
   detachedMediaQuery: 'none',
   initialState: {
