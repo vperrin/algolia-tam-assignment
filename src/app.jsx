@@ -1,29 +1,33 @@
-import { autocomplete, getAlgoliaResults } from '@algolia/autocomplete-js'
-import algoliasearch from 'algoliasearch/lite'
-import instantsearch from 'instantsearch.js'
-import historyRouter from 'instantsearch.js/es/lib/routers/history'
-import { connectSearchBox } from 'instantsearch.js/es/connectors'
-import { hierarchicalMenu, hits, pagination } from 'instantsearch.js/es/widgets'
+import { autocomplete, getAlgoliaResults } from '@algolia/autocomplete-js';
+import algoliasearch from 'algoliasearch/lite';
+import instantsearch from 'instantsearch.js';
+import historyRouter from 'instantsearch.js/es/lib/routers/history';
+import { connectSearchBox } from 'instantsearch.js/es/connectors';
+import {
+  hierarchicalMenu,
+  hits,
+  pagination,
+} from 'instantsearch.js/es/widgets';
 import autocompleteProductTemplate from './templates/autocomplete-product';
 import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
 import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches';
 import { h, Fragment } from 'preact';
 
-import '@algolia/autocomplete-theme-classic'
+import '@algolia/autocomplete-theme-classic';
 
 const searchClient = algoliasearch(
-      process.env.APPLICATION_ID,
-  process.env.SEARCH_KEY)
-      
+  process.env.APPLICATION_ID,
+  process.env.SEARCH_KEY
+);
 
-const INSTANT_SEARCH_INDEX_NAME = 'products'
-const instantSearchRouter = historyRouter()
+const INSTANT_SEARCH_INDEX_NAME = 'products';
+const instantSearchRouter = historyRouter();
 
 const search = instantsearch({
   searchClient,
   indexName: INSTANT_SEARCH_INDEX_NAME,
   routing: instantSearchRouter,
-})
+});
 
 const querySuggestionsPluginKeywords = createQuerySuggestionsPlugin({
   searchClient,
@@ -38,10 +42,9 @@ const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
   limit: 5,
 });
 
-
 // Mount a virtual search box to manipulate InstantSearch's `query` UI
 // state parameter.
-const virtualSearchBox = connectSearchBox(() => {})
+const virtualSearchBox = connectSearchBox(() => {});
 
 search.addWidgets([
   virtualSearchBox({}),
@@ -52,14 +55,15 @@ search.addWidgets([
   hits({
     container: '#results',
     templates: {
-      item:autocompleteProductTemplate},
+      item: autocompleteProductTemplate,
+    },
   }),
   pagination({
     container: '#pagination',
   }),
-])
+]);
 
-search.start()
+search.start();
 
 // Set the InstantSearch index UI state from external events.
 function setInstantSearchUiState(indexUiState) {
@@ -71,17 +75,17 @@ function setInstantSearchUiState(indexUiState) {
       page: 1,
       ...indexUiState,
     },
-  }))
+  }));
 }
 
 // Return the InstantSearch index UI state.
 function getInstantSearchUiState() {
-  const uiState = instantSearchRouter.read()
+  const uiState = instantSearchRouter.read();
 
-  return (uiState && uiState[INSTANT_SEARCH_INDEX_NAME]) || {}
+  return (uiState && uiState[INSTANT_SEARCH_INDEX_NAME]) || {};
 }
 
-const searchPageState = getInstantSearchUiState()
+const searchPageState = getInstantSearchUiState();
 
 function ProductItem({ hit, components }) {
   return (
@@ -122,7 +126,7 @@ function ProductItem({ hit, components }) {
 
 autocomplete({
   container: '#autocomplete',
-   plugins: [recentSearchesPlugin, querySuggestionsPluginKeywords],
+  plugins: [recentSearchesPlugin, querySuggestionsPluginKeywords],
   openOnFocus: true,
   placeholder: 'Search',
   detachedMediaQuery: 'none',
@@ -158,14 +162,14 @@ autocomplete({
     ];
   },
   onSubmit({ state }) {
-    setInstantSearchUiState({ query: state.query })
+    setInstantSearchUiState({ query: state.query });
   },
   onReset() {
-    setInstantSearchUiState({ query: '' })
+    setInstantSearchUiState({ query: '' });
   },
   onStateChange({ prevState, state }) {
     if (prevState.query !== state.query) {
-      setInstantSearchUiState({ query: state.query })
+      setInstantSearchUiState({ query: state.query });
     }
   },
-})
+});
