@@ -40,7 +40,9 @@ search.addWidgets([
         autocompleteProductTemplate,
     },
   }),
-  
+    pagination({
+    container: '#pagination',
+  }),
 ])
 
 search.start()
