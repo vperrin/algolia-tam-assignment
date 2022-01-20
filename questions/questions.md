@@ -39,8 +39,8 @@ Answer:
 Hi Carrie,
 
 Thanks for getting in touch. To ensure optimal performance of our solution, we have a maximum size of 100kb for every document stored in Algolia. 
-Given the error that your are refering to, I suspect that the meta data your are attaching to the feedback of customers is increasing the document size past this threshold. 
-Please review all the meta data that your are sending to Algolia to see which data can be omited. This will help resolve the issue and improve the performance of the solution.
+Given the error that your are refering to, I suspect that the meta data you are attaching to the feedback of customers is increasing the document size past this threshold. 
+Please review all the meta data that you are sending to Algolia to see which data points can be omited. This will help resolve the issue and improve the performance of the solution.
 
 Best,
 Vincent
@@ -64,7 +64,7 @@ Hi Marc,
 
 Thanks for getting in touch.
 Without having access to your code, it is hard for me to diagnose the issue.
-I presume you are using searchkit to build an search UI?
+I presume you are using searchkit to build a search UI?
 It sounds like you are trying to use the widget without having properly created it.
 
 To create a search interface, we recommend using Algolia Instantsearch and Algolia Autocomplete, for which we have SDKs for the morec common front-end languages.
