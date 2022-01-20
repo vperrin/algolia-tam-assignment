@@ -6,6 +6,7 @@ const autocompleteProduct = hit => `<div class="autocomplete-product">
     <h3 class="autocomplete-product__name">${
       hit._highlightResult.name.value
     }</h3>
+    <p class="autocomplete-product__brand">${hit.brand}</p>
     <p class="autocomplete-product__price">$${hit.price}</p>
   </div>
 </div>`;

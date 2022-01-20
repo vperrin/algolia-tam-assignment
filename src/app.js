@@ -1,27 +1,36 @@
-import Autocomplete from './components/autocomplete';
+import algoliasearch from 'algoliasearch/lite'
+import instantsearch from 'instantsearch.js'
+import historyRouter from 'instantsearch.js/es/lib/routers/history'
+import {
+  searchBox,
+  hierarchicalMenu,
+  hits,
+  pagination,
+} from 'instantsearch.js/es/widgets'
 
-class SpencerAndWilliamsSearch {
-  constructor() {
-    this._initSearch();
-    this._registerEvents();
-  }
+import '@algolia/autocomplete-theme-classic'
 
-  _initSearch() {
-    this.autocompleteDropdown = new Autocomplete();
-  }
+const searchClient = algoliasearch(
+      process.env.APPLICATION_ID,
+      process.env.SEARCH_KEY)
+const INSTANT_SEARCH_INDEX_NAME = 'products'
 
-  _registerEvents() {
-    const autocomplete = document.querySelector('.autocomplete');
-    const searchbox = document.querySelector('#searchbox input');
+const instantSearchRouter = historyRouter()
+const search = instantsearch({
+  searchClient,
+  indexName: INSTANT_SEARCH_INDEX_NAME,
+  routing: instantSearchRouter,
+})
 
-    searchbox.addEventListener('click', () => {
-      autocomplete.style.display = 'block';
-    });
+search.addWidgets([
+  searchBox({
+    container: '#searchbox',
+    placeholder: 'Search',
+  }),
+  hits({
+    container: '#results',
+  }),
+  
+])
 
-    searchbox.addEventListener('blur', () => {
-      autocomplete.style.display = 'none';
-    });
-  }
-}
-
-const app = new SpencerAndWilliamsSearch();
+search.start()
